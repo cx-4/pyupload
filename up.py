@@ -51,9 +51,9 @@ def upload_file():
         <p>
             {% with messages = get_flashed_messages() %}
                 {% if messages %}
-                    <ul class="flashes">
+                    <ul class="flashes" style="list-style-type:none;">
                     {% for m in messages %}
-                        <li> {{ message }} </li>
+                        <li> {{ m }} </li>
                     {% endfor %}
                 {% endif %}
             {% endwith %}
