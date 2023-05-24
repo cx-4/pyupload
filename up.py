@@ -6,6 +6,7 @@
 # author: cx-4
 # date:   01/12/2020
 # update: 24/05/2022
+#
 # generate ssl cert with:
 #  openssl req -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem -days 365 -sha256 -nodes -subj "/C=US/ST=Washington/L=Redmond/O=Microsoft Corporation/CN=Microsoft Product Secure Server CA"
 #
