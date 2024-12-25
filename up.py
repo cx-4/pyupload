@@ -40,8 +40,8 @@ HOME
 </head>
 <body>
 <p>
-For file upload go to <a href="/upload">/upload</a>
-For file download go to <a href="/downloads">/downloads</a>
+For file upload go to <a href="/upload">/upload</a><br/>
+For file download go to <a href="/downloads">/downloads</a><br/>
 </p>
 </body>
 </html>
