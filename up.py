@@ -19,16 +19,64 @@ from flask import request
 from flask import flash
 from flask import redirect
 from flask import render_template_string
+from flask import send_file
 import os
 app = Flask(__name__)
 app.secret_key = b'1337'
+
 
 if (not os.path.exists(os.getcwd()+'/uploads')):
     os.mkdir(os.getcwd()+'/uploads')
 
 @app.route('/')
 def idx():
-    return 'For file upload go to /upload'
+    return 'For file upload go to /upload\nFor file download go to /downloads'
+
+@app.route('/downloads', methods=['GET', 'POST'])
+def show_files(path='uploads'):
+    if request.method == 'GET':
+        sb = "<!DOCTYPE html>"
+        sb += "<html>"
+        sb += "<body><p>"
+        for entry in os.listdir(path):
+            full_path = os.path.join(path, entry)
+            sb += "<a href=/get/"+entry+">"+full_path+"</a><br/>"
+
+        sb += "</p></body>"
+        sb += "</html>"
+        return sb
+    
+    if request.method == 'POST':
+        return """
+<!DOCTYPE html>
+<html>
+<body>
+<p>not supported</p>
+</body>
+</html>
+        """
+        
+@app.route('/get/<filename>', methods=['GET','POST'])
+def return_file(filename):
+    if request.method == 'POST':
+        return """
+<!DOCTYPE html>
+<html>
+<body>
+<p>not supported</p>
+</body>
+</html>
+        """
+    if request.method == 'GET':
+        # DEBUG
+        #request_data = request
+        #return request_data.base_url
+        fp = "uploads/"+filename
+        if os.path.exists(fp):
+            if not os.path.isdir(fp):
+                return send_file(fp)
+        else:
+            return "ERR: not a file"
 
 @app.route('/upload', methods=['GET', 'POST'])
 def upload_file():
@@ -44,7 +92,7 @@ def upload_file():
                 f.save(os.getcwd() + "/uploads/" + f.filename)
 
         flash('OK')
-        return redirect('/upload')
+        return redirect('/downloads')
 
     if request.method == 'GET':
         return render_template_string("""
@@ -72,6 +120,7 @@ def upload_file():
         </body>
         </html>
         """)
+
 if __name__ == '__main__':
     context = ('cert.pem', 'key.pem')
-    app.run(debug=True, ssl_context=context, host='0.0.0.0', port=443)
+    app.run(debug=True, ssl_context=context, host='0.0.0.0', port=8443)
