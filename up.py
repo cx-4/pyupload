@@ -30,7 +30,22 @@ if (not os.path.exists(os.getcwd()+'/uploads')):
 
 @app.route('/')
 def idx():
-    return 'For file upload go to /upload\nFor file download go to /downloads'
+    return """
+<!DOCTYPE html>
+<html>
+<head>
+<title>
+HOME
+</title>
+</head>
+<body>
+<p>
+For file upload go to <a href="/upload">/upload</a>
+For file download go to <a href="/downloads">/downloads</a>
+</p>
+</body>
+</html>
+"""
 
 @app.route('/downloads', methods=['GET', 'POST'])
 def show_files(path='uploads'):
@@ -50,6 +65,11 @@ def show_files(path='uploads'):
         return """
 <!DOCTYPE html>
 <html>
+<head>
+<title>
+DOWNLOADS
+</title>
+</head>
 <body>
 <p>not supported</p>
 </body>
@@ -62,6 +82,11 @@ def return_file(filename):
         return """
 <!DOCTYPE html>
 <html>
+<head>
+<title>
+ERR
+</title>
+</head>
 <body>
 <p>not supported</p>
 </body>
@@ -98,6 +123,11 @@ def upload_file():
         return render_template_string("""
         <!DOCTYPE html>
         <html>
+<head>
+<title>
+UPLOAD
+</title>
+</head>
         <head>
         <title>Multi file uploader</title>
         </head>
@@ -123,4 +153,4 @@ def upload_file():
 
 if __name__ == '__main__':
     context = ('cert.pem', 'key.pem')
-    app.run(debug=True, ssl_context=context, host='0.0.0.0', port=8443)
+    app.run(debug=True, ssl_context=context, host='0.0.0.0', port=443)
